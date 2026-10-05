@@ -1,48 +1,102 @@
 ﻿class Uređaj
 {
  public string marka;
-
- public void ispis()
- {
-  Console.WriteLine("ovo je uređaj");
- }
-}
-
-class Mobitel : Uređaj
-{
  public string model;
  public float cijena;
  public int godizd;
  public string boja;
- private string broj;
 
- public Mobitel(string m, float c, int g, string b, string bb)
+ public Uređaj(string m, string mm, float c, int g, string b)
  {
-  model = m;
+  marka = m;
+  model = mm;
   cijena = c;
   godizd = g;
   boja = b;
-  broj = bb;
  }
 
- public string Broj
+ public virtual void ispis()
  {
-  get { return broj; }
-  set { broj = value; }
+  Console.WriteLine($"ovo je uređaj marke {marka} i cijena mu je {cijena} EUR");
+  Console.WriteLine($"uređaj je boje {boja}, a godina izdanja mu je {godizd}");
  }
-}
 
-class Program
+ class Tablet : Uređaj
+ {
+  public float dijag;
+  public bool olovka;
+  public int kapacitetbat;
+
+  public Tablet(string m, string mm, float c, int g, string b, float d, bool o, int kb) : base(m, mm, c, g, b)
+  {
+   dijag = d;
+   olovka = o;
+   kapacitetbat = kb;
+  }
+
+  public override void ispis()
+  {
+   base.ispis();
+   if (olovka == true)
+   {
+    Console.WriteLine("Ima olovku.");
+   }
+   else
+   {
+    Console.WriteLine("Nema Olovku");
+   }
+  }
+
+ }
+
+ class Mobitel : Uređaj
+ {
+  private string brojtel;
+  public int brojkamera;
+  public bool dualsim;
+
+  public Mobitel(string m, string mm, float c, int g, string b, string bt, int bk, bool d) : base(m, mm, c, g, b)
+  {
+   brojtel = bt;
+   brojkamera = bk;
+   dualsim = d;
+  }
+
+  public string Broj
+  {
+   get { return brojtel; }
+   set { brojtel = value; }
+  }
+ }
+
+ class Program
  {
   static void Main(string[] args)
   {
-   Uređaj mikrovalna = new Uređaj();
-   mikrovalna.ispis();
+   Console.WriteLine("unos tableta: ");
+   Console.Write("Unesite marku: ");
+   string tMarka = Console.ReadLine();
+   Console.Write("Unesite model: ");
+   string tModel = Console.ReadLine();
+   Console.Write("Unesite cijenu (EUR): ");
+   float tCijena = float.Parse(Console.ReadLine());
+   Console.Write("Unesite godinu izdanja: ");
+   int tGodina = int.Parse(Console.ReadLine());
+   Console.Write("Unesite boju: ");
+   string tBoja = Console.ReadLine();
+   Console.Write("Unesite dijagonalu ekrana (inči): ");
+   float tDijagonala = float.Parse(Console.ReadLine());
+   Console.Write("Ima li olovku (true/false): ");
+   bool tOlovka = bool.Parse(Console.ReadLine());
+   Console.Write("Unesite kapacitet baterije (mAh): ");
+   int tBaterija = int.Parse(Console.ReadLine());
 
-   Mobitel moj = new Mobitel("Iphone 15pro", 900, 2024, "crna", "0919876754");
-   moj.ispis();
-   moj.boja = "crvena"; 
-   Console.WriteLine(moj.boja);
-   Console.WriteLine(moj.marka);
+
+   Tablet mojTablet = new Tablet(tMarka, tModel, tCijena, tGodina, tBoja, tDijagonala, tOlovka, tBaterija);
+   mojTablet.ispis();
+
+
+
   }
  }
+}
