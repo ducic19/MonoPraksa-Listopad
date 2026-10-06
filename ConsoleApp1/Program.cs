@@ -34,6 +34,7 @@ class Uređaj
  {
   Console.WriteLine($"ovo je uređaj marke {marka} i cijena mu je {cijena} EUR");
   Console.WriteLine($"uređaj je boje {boja}, a godina izdanja mu je {godizd}");
+  Console.WriteLine($"model se zove: {model}");
  }
 }
 
@@ -98,10 +99,40 @@ class Tablet : Uređaj,ITablet
   }
   
  }
+
+//nevezane klase za drugi primjer kao 
+ class Oblici
+ {
+  virtual public void povrsina()
+  {
+   Console.WriteLine("Povrsina: ");
+  }
+ }
+
+ class Pravokutnik : Oblici
+ {
+  public float a, b;
+  public Pravokutnik(float a, float b)
+  {
+   this.a = a;
+   this.b = b;
+  }
+
+  public override void povrsina()
+  {
+   float p = a * b;
+   Console.WriteLine($"Povrsina:{p} ");
+  }
+ }
  class Program
  {
   static void Main(string[] args)
   {
+   
+   //drugi dioooo
+   Pravokutnik p = new Pravokutnik(3, 4);
+   p.povrsina(); 
+   
    Console.WriteLine("unos tableta: ");
    Console.Write("marka: ");
    string tMarka = Console.ReadLine();
@@ -144,7 +175,7 @@ class Tablet : Uređaj,ITablet
    string mBrojtel = Console.ReadLine();
    Console.Write("broj kamera: ");
    int mBrojka = int.Parse(Console.ReadLine());
-   Mobitel mojMobitel = new Mobitel(
+   Mobitel mojMobitel = new Mobitel( 
     mMarka,
     mModel,
     mCijena,
@@ -154,7 +185,6 @@ class Tablet : Uređaj,ITablet
     mBrojka,
     mDualsim
    );
-
    mojMobitel.ispis();
   }
  }
