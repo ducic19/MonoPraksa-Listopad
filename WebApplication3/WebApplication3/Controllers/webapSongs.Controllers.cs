@@ -15,8 +15,41 @@ public class webapSongs : ControllerBase
     [HttpGet(Name = "GetSongs")]
     public IActionResult GetSongs()
     {
-        return Ok(_songs); //vraća listu pjesama
-    } 
+        return Ok(_songs); //vraća listu svih pjesama
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult GetSong([FromRoute] int id)
+    {
+        var existingS = _songs.FirstOrDefault(s => s.ID == id);
+        if (existingS == null)
+            {
+            return NotFound();
+            }
+        return Ok(existingS);
+    }
+
+    [HttpGet("search")]
+    public IActionResult SearchSongs([FromQuery] string? artist, [FromQuery] string? title, [FromQuery] string? album)
+    {
+        var res = _songs.AsEnumerable();
+        if (artist!=null)
+        {
+            res=res.Where(s => s.Artist.Contains(artist));
+        }
+
+        if (title!=null)
+        {
+            res = res.Where(s => s.Title.Contains(title));
+        }
+
+        if (album!=null)
+        {
+            res = res.Where(s => s.Album.Contains(album));
+        }
+        
+        return Ok(res);
+    }
     //PUT 
     [HttpPut("{id}", Name = "UpdateSong")]
     public IActionResult UpdateSong([FromRoute] int id, [FromBody] Song updates)
@@ -40,7 +73,6 @@ public class webapSongs : ControllerBase
         {
             return BadRequest();
         }
-
         newsong.ID = _songs.Max(s=>s.ID) + 1; //count +1 mozda duplicira neke id
         _songs.Add(newsong);
         return Ok(newsong);
