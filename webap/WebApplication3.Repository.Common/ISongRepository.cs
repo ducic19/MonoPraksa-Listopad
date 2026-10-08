@@ -1,13 +1,10 @@
 ﻿using WebApplication3.Model;
 
-namespace WebApplication3.Repository.Common;
-
-public interface ISongRepository
+namespace WebApplication3.Repository.Common
 {
-    IEnumerable<Song> GetAll();
-    Song? GetById(int id);
-    IEnumerable<Song> Search(string? artist, string? title, string? album);
-    Song? Update(int id, Song updates);
-    Song Add(Song newSong);
-    bool Delete(int id);
+    public interface ISongRepository
+    {
+        Task<List<Member>> GetAllAsync();
+        Task<List<Trainer>> GetAllEmployeesAsync();
+    }
 }
