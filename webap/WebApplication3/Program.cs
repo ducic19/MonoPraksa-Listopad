@@ -1,43 +1,30 @@
 using Microsoft.EntityFrameworkCore;
-using WebApplication3.Repository; // Ovdje se nalazi tvoj AppDbContext
-using WebApplication3.Common;
-using WebApplication3.Model;
-using WebApplication3.Repository.Common;
-using WebApplication3.Service;
-using WebApplication3.Service.Common;
-
+using WebApplication3.Model; // Donosi AppDbContext, Member, Subscription, Trainer
+using WebApplication3.Repository; // Donosi MemberRepository
+using WebApplication3.Repository.Common; // Donosi IMemberRepository
+using WebApplication3.Service; // Donosi MemberService
+using WebApplication3.Service.Common; // Donosi IMemberService
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// 1. JSON opcije protiv kružnih petlji
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+    });
 
-
-// 1. Registracija AppDbContext-a s Npgsql (PostgreSQL) konekcijom
+// 2. Konekcija na bazu preko AppDbContext-a
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnectionString");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnectionString")));
+    options.UseNpgsql(connectionString));
 
-// 2. Register your repositories and services
-builder.Services.AddScoped<ISongRepository, SongRepository>();
-builder.Services.AddScoped<ISongService, SongService>();
-
-// --- DEPENDENCY INJECTION REGISTRACIJA ---
-builder.Services.AddScoped<ISongRepository, SongRepository>();
-builder.Services.AddSingleton<IIdGenerator, IdGenerator>();
-builder.Services.AddScoped<ISongService, SongService>();
-builder.Services.AddScoped<IRequestCounter, RequestCounter>();
-builder.Services.AddTransient<ILoggerNotifier, LoggerNotifier>();
+// 3. Registracija servisa i repozitorija
+builder.Services.AddScoped<IMemberRepository, MemberRepository>();
+builder.Services.AddScoped<IMemberService, MemberService>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 

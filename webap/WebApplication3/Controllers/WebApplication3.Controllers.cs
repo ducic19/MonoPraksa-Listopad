@@ -8,25 +8,40 @@ namespace WebApplication3.Controllers
     [Route("api/[controller]")]
     public class MemberController : ControllerBase
     {
-        private readonly ISongService _songService;
+        private readonly IMemberService _memberService;
 
-        public MemberController(ISongService songService)
+        public MemberController(IMemberService memberService)
         {
-            _songService = songService;
+            _memberService = memberService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string name)
         {
-            var members = await _songService.GetAllAsync();
-            return Ok(members);
+            var result = await _memberService.GetActiveMembersAsync(name ?? "");
+            return Ok(result);
         }
 
+        [HttpGet("{id}/details")]
+        public async Task<IActionResult> GetDetails(Guid id)
+        {
+            var member = await _memberService.GetMemberWithDetailsAsync(id);
+            if (member == null) return NotFound("Član nije pronađen.");
+            return Ok(member);
+        }
+
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboard()
+        {
+            var (members, trainers) = await _memberService.GetDashboardDataAsync();
+            return Ok(new { Members = members, Trainers = trainers });
+        }
+        
         [HttpGet("employees")]
         public async Task<IActionResult> GetEmployees()
         {
-            var employees = await _songService.GetAllEmployeesAsync();
-            return Ok(employees);
+            var (_, trainers) = await _memberService.GetDashboardDataAsync();
+            return Ok(trainers);
         }
     }
 }
