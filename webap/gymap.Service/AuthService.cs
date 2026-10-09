@@ -80,22 +80,29 @@ namespace gymap.DTO
 
         private string CreateJwtToken(Member member)
         {
-            var claims = new List<Claim>
+            // Ključ MORA imati minimalno 16 znakova (128 bita), stavljamo iznimno dugacki ključ
+            var secretKey = _configuration["JwtSettings:Secret"];
+    
+            if (string.IsNullOrEmpty(secretKey) || Encoding.UTF8.GetBytes(secretKey).Length < 16)
             {
-                new Claim(ClaimTypes.NameIdentifier, member.MemId.ToString()),
-                new Claim(ClaimTypes.Email, member.Email),
-                new Claim(ClaimTypes.Role, member.Role) // Uloga ulazi u token za kasniju autorizaciju [Authorize(Roles = "...")]
-            };
+                secretKey = "OvoJeVrloSiguranITajniKljucKojiImaViseOd256BitaZaJWT!";
+            }
 
-            var secretKey = _configuration["JwtSettings:Secret"] ?? "fallback_secret_key_needs_to_be_long_enough";
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            var claims = new[]
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, member.MemId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, member.Email ?? ""),
+                new Claim(ClaimTypes.Role, member.Role ?? "User")
+            };
+
             var token = new JwtSecurityToken(
-                issuer: _configuration["JwtSettings:Issuer"],
-                audience: _configuration["JwtSettings:Audience"],
+                issuer: _configuration["JwtSettings:Issuer"] ?? "gymap",
+                audience: _configuration["JwtSettings:Audience"] ?? "gymap",
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(8),
+                expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: creds
             );
 
