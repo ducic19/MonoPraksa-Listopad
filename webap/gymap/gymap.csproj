@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+      <UserSecretsId>d0f2a260-04c1-4f7a-a9a9-ec4ec08ca86e</UserSecretsId>
+      <RootNamespace>WebApplication3</RootNamespace>
+  </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.12" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.12">
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.12" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\gymap.Model\gymap.Model.csproj" />
+      <ProjectReference Include="..\gymap.Service\gymap.Service.csproj" />
+      <ProjectReference Include="..\gymap.Common\gymap.Common.csproj" />
+      <ProjectReference Include="..\gymap.Repository\gymap.Repository.csproj" />
+      <ProjectReference Include="..\gymap.Service.Common\gymap.Service.Common.csproj" />
+      <ProjectReference Include="..\gymap.Repository.Common\gymap.Repository.Common.csproj" />
+      <ProjectReference Include="..\DTO\DTO.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>WebApplication3.Service</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
+      <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.3" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.2.3" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.2.3" />
+      <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.23.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\gymap.Model\gymap.Model.csproj" />
+      <ProjectReference Include="..\gymap.Common\gymap.Common.csproj" />
+      <ProjectReference Include="..\gymap.Repository\gymap.Repository.csproj" />
+      <ProjectReference Include="..\gymap.Service.Common\gymap.Service.Common.csproj" />
+      <ProjectReference Include="..\gymap.Repository.Common\gymap.Repository.Common.csproj" />
+      <ProjectReference Include="..\DTO\DTO.csproj" />
+    </ItemGroup>
+
+</Project>
