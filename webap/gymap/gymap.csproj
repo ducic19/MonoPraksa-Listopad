@@ -30,6 +30,7 @@
       <ProjectReference Include="..\gymap.Service.Common\gymap.Service.Common.csproj" />
       <ProjectReference Include="..\gymap.Repository.Common\gymap.Repository.Common.csproj" />
       <ProjectReference Include="..\DTO\DTO.csproj" />
+      <ProjectReference Include="..\gymap.Constants\gymap.Constants.csproj" />
     </ItemGroup>
 
 </Project>

@@ -3,9 +3,10 @@ using gymap.Service.Common;
 using Microsoft.AspNetCore.Mvc;
 using gymap.Model;
 using DTO;
+using gymap.Constants; // Uvoz za Roles.Admin
 
 namespace gymap.Controllers
-{
+{ 
     [ApiController]
     [Route("api/[controller]")]
     public class MemberController : ControllerBase
@@ -17,7 +18,7 @@ namespace gymap.Controllers
             _memberService = memberService;
         }
 
-        // Bilo koji prijavljeni korisnik može pretraživati članove
+        // Bilo koji prijavljeni korisnik (User ili Admin) može pretraživati članove
         [Authorize]
         [HttpGet("search")]
         public async Task<IActionResult> Search([FromQuery] string name)
@@ -35,8 +36,8 @@ namespace gymap.Controllers
             return Ok(member);
         }
 
-        // Samo Admin smije stvarati nove članove
-        [Authorize(Roles = "Admin")]
+        // Samo Admin smije stvarati nove članove (korištenje konstante)
+        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] MemberAddDto dto)
         {
@@ -49,8 +50,9 @@ namespace gymap.Controllers
             };
 
             await _memberService.AddMemberAsync(newMember);
-            return CreatedAtAction(nameof(GetDetails), new { id = newMember.MemId }, newMember);
+            
+            // Vraćamo status 201 Created s rutom do novog člana
+            return CreatedAtAction(nameof(GetDetails), new { id = newMember.MemId }, dto);
         }
-        
     }
 }

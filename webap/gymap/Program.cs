@@ -8,11 +8,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
-// 1. Inicijalizacija builder-a MORA biti na samom početku
+// 1. Inicijalizacija builder-a
 var builder = WebApplication.CreateBuilder(args);
 
 // 2. Registracija DbContext-a (PostgreSQL)
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("PostgreSQLConnection") 
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
@@ -25,6 +27,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenService, TokenService>(); // Profesorov zahtjev: Token Service
 
 // 5. Konfiguracija JWT Autentifikacije
 builder.Services.AddAuthentication(options =>
@@ -34,17 +37,31 @@ builder.Services.AddAuthentication(options =>
     })
     .AddJwtBearer(options =>
     {
-        var secretKey = builder.Configuration["JwtSettings:Secret"] ?? "fallback_secret_key_needs_to_be_long_enough";
+        // Profesorov zahtjev: Bez fallback ključa! Ako nedostaje, aplikacija odmah baca grešku.
+        var secretKey = builder.Configuration["JwtSettings:Secret"] 
+            ?? throw new InvalidOperationException("CRITICAL ERROR: 'JwtSettings:Secret' nedostaje u konfiguraciji/User Secrets!");
+
+        var issuer = builder.Configuration["JwtSettings:Issuer"] 
+            ?? throw new InvalidOperationException("CRITICAL ERROR: 'JwtSettings:Issuer' nije definiran u appsettings.json!");
+
+        var audience = builder.Configuration["JwtSettings:Audience"] 
+            ?? throw new InvalidOperationException("CRITICAL ERROR: 'JwtSettings:Audience' nije definiran u appsettings.json!");
 
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
+            
             ValidateIssuer = true,
-            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            ValidIssuer = issuer,
+            
             ValidateAudience = true,
-            ValidAudience = builder.Configuration["JwtSettings:Audience"],
-            ValidateLifetime = true
+            ValidAudience = audience,
+            
+            ValidateLifetime = true,
+            
+            // Profesorov zahtjev: Eksplicitna provjera rola
+            RoleClaimType = System.Security.Claims.ClaimTypes.Role
         };
     });
 
@@ -64,10 +81,12 @@ app.UseAuthentication(); // 1. Tko si ti?
 app.UseAuthorization();  // 2. Što smiješ raditi?
 
 app.MapControllers();
+
 // Automatski kreira tablice u tvojoj bazi ako već ne postoje
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.EnsureCreated();
 }
+
 app.Run();
