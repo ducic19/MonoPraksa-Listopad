@@ -1,24 +1,24 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap", "gymap\gymap.csproj", "{E1712DA7-4F84-46F5-A809-EC2D6344B2B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gymap", "Gymap\Gymap.csproj", "{E1712DA7-4F84-46F5-A809-EC2D6344B2B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Service", "gymap.Service\gymap.Service.csproj", "{A37D3326-BCBB-4A03-8131-C0BB50DED874}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gymap.Service", "Gymap.Service\Gymap.Service.csproj", "{A37D3326-BCBB-4A03-8131-C0BB50DED874}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Model", "gymap.Model\gymap.Model.csproj", "{A9EF68B1-E5CB-4E02-AAC6-D1A20937047C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gymap.Model", "Gymap.Model\Gymap.Model.csproj", "{A9EF68B1-E5CB-4E02-AAC6-D1A20937047C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Common", "gymap.Common\gymap.Common.csproj", "{88F3624C-B704-4832-ADF2-5370799ADD49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gymap.Common", "Gymap.Common\Gymap.Common.csproj", "{88F3624C-B704-4832-ADF2-5370799ADD49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Repository", "gymap.Repository\gymap.Repository.csproj", "{8274F523-E020-476E-B2FF-BD117CE230F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gymap.Repository", "Gymap.Repository\Gymap.Repository.csproj", "{8274F523-E020-476E-B2FF-BD117CE230F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Repository.Common", "gymap.Repository.Common\gymap.Repository.Common.csproj", "{2F4B0B61-ED33-44D8-AFDC-A6B7D6D1718B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gymap.Repository.Common", "Gymap.Repository.Common\Gymap.Repository.Common.csproj", "{2F4B0B61-ED33-44D8-AFDC-A6B7D6D1718B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Service.Common", "gymap.Service.Common\gymap.Service.Common.csproj", "{4976F2D5-BC07-48D9-BBC8-43A4AC6519CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gymap.Service.Common", "Gymap.Service.Common\Gymap.Service.Common.csproj", "{4976F2D5-BC07-48D9-BBC8-43A4AC6519CA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{628425E9-C10D-4BFD-8D2F-90A6B2BDA755}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Constants", "gymap.Constants\gymap.Constants.csproj", "{2013FE4C-5D88-4DA2-A5A1-2B2824ED86BC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gymap.Constants", "Gymap.Constants\Gymap.Constants.csproj", "{2013FE4C-5D88-4DA2-A5A1-2B2824ED86BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Middleware", "gymap.Middleware\gymap.Middleware.csproj", "{1F8DF016-F617-4081-9B07-E576DFDF22AE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gymap.Middleware", "Gymap.Middleware\Gymap.Middleware.csproj", "{1F8DF016-F617-4081-9B07-E576DFDF22AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

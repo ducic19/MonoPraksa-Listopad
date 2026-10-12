@@ -25,15 +25,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\gymap.Middleware\gymap.Middleware.csproj" />
-      <ProjectReference Include="..\gymap.Model\gymap.Model.csproj" />
-      <ProjectReference Include="..\gymap.Service\gymap.Service.csproj" />
-      <ProjectReference Include="..\gymap.Common\gymap.Common.csproj" />
-      <ProjectReference Include="..\gymap.Repository\gymap.Repository.csproj" />
-      <ProjectReference Include="..\gymap.Service.Common\gymap.Service.Common.csproj" />
-      <ProjectReference Include="..\gymap.Repository.Common\gymap.Repository.Common.csproj" />
+      <ProjectReference Include="..\Gymap.Middleware\Gymap.Middleware.csproj" />
+      <ProjectReference Include="..\Gymap.Model\Gymap.Model.csproj" />
+      <ProjectReference Include="..\Gymap.Service\Gymap.Service.csproj" />
+      <ProjectReference Include="..\Gymap.Common\Gymap.Common.csproj" />
+      <ProjectReference Include="..\Gymap.Repository\Gymap.Repository.csproj" />
+      <ProjectReference Include="..\Gymap.Service.Common\Gymap.Service.Common.csproj" />
+      <ProjectReference Include="..\Gymap.Repository.Common\Gymap.Repository.Common.csproj" />
       <ProjectReference Include="..\DTO\DTO.csproj" />
-      <ProjectReference Include="..\gymap.Constants\gymap.Constants.csproj" />
+      <ProjectReference Include="..\Gymap.Constants\Gymap.Constants.csproj" />
     </ItemGroup>
 
 </Project>

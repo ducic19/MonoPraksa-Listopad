@@ -62,7 +62,7 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-// 6. gymap.Middleware Pipeline
+// 6. Gymap.Middleware Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

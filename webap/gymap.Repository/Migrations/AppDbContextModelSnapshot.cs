@@ -81,7 +81,7 @@ namespace WebApplication3.Repository.Migrations
                     b.ToTable("trainer_subs", (string)null);
                 });
 
-            modelBuilder.Entity("gymap.Model.Subscription", b =>
+            modelBuilder.Entity("Gymap.Model.Subscription", b =>
                 {
                     b.Property<Guid>("SubsId")
                         .ValueGeneratedOnAdd()
@@ -108,7 +108,7 @@ namespace WebApplication3.Repository.Migrations
                     b.ToTable("subscription", (string)null);
                 });
 
-            modelBuilder.Entity("gymap.Model.Trainer", b =>
+            modelBuilder.Entity("Gymap.Model.Trainer", b =>
                 {
                     b.Property<Guid>("TrainerId")
                         .ValueGeneratedOnAdd()
@@ -136,7 +136,7 @@ namespace WebApplication3.Repository.Migrations
 
             modelBuilder.Entity("Member", b =>
                 {
-                    b.HasOne("gymap.Model.Subscription", "Subs")
+                    b.HasOne("Gymap.Model.Subscription", "Subs")
                         .WithMany("Members")
                         .HasForeignKey("SubsId")
                         .HasConstraintName("fk_subs_id");
@@ -146,14 +146,14 @@ namespace WebApplication3.Repository.Migrations
 
             modelBuilder.Entity("TrainerSub", b =>
                 {
-                    b.HasOne("gymap.Model.Subscription", null)
+                    b.HasOne("Gymap.Model.Subscription", null)
                         .WithMany()
                         .HasForeignKey("SubsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_ts_s");
 
-                    b.HasOne("gymap.Model.Trainer", null)
+                    b.HasOne("Gymap.Model.Trainer", null)
                         .WithMany()
                         .HasForeignKey("TrainerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -161,7 +161,7 @@ namespace WebApplication3.Repository.Migrations
                         .HasConstraintName("fk_ts_t");
                 });
 
-            modelBuilder.Entity("gymap.Model.Subscription", b =>
+            modelBuilder.Entity("Gymap.Model.Subscription", b =>
                 {
                     b.Navigation("Members");
                 });

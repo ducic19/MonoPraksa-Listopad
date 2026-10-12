@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
-      <ProjectReference Include="..\gymap.Model\gymap.Model.csproj" />
-      <ProjectReference Include="..\gymap.Repository.Common\gymap.Repository.Common.csproj" />
+      <ProjectReference Include="..\Gymap.Model\Gymap.Model.csproj" />
+      <ProjectReference Include="..\Gymap.Repository.Common\Gymap.Repository.Common.csproj" />
     </ItemGroup>
 
     <ItemGroup>

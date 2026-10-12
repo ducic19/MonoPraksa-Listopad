@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\gymap.Model\gymap.Model.csproj" />
+    <ProjectReference Include="..\Gymap.Model\Gymap.Model.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
