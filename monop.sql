@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS Trainer CASCADE;
 
 CREATE TABLE Subscription ( 
 Subs_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-weekly INT NOT NULL,
+weekly INT NOT NULL CHECK(weekly BETWEEN 1 AND 5),
 duration INT NOT NULL,
 price NUMERIC(10,2) NOT NULL
 );
@@ -15,13 +15,13 @@ price NUMERIC(10,2) NOT NULL
 CREATE TABLE Trainer (
 Trainer_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 name VARCHAR(100) NOT NULL,
-email VARCHAR(100) NOT NULL
+email VARCHAR(100) NOT NULL CHECK (email LIKE '%@%')
 );
 
 CREATE TABLE Member ( 
 Mem_Id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
 name VARCHAR(100) NOT NULL,
-email VARCHAR(100) NOT NULL,
+email VARCHAR(100) NOT NULL CHECK (email LIKE '%@%'),
 Subs_Id UUID NOT NULL,
 CONSTRAINT fk_subs_id FOREIGN KEY (Subs_Id) REFERENCES Subscription(Subs_Id) ON DELETE CASCADE
 );
@@ -87,6 +87,9 @@ FROM Subscription s
 LEFT JOIN Member m on s.subs_id=m.subs_id
 GROUP BY s.subs_id, s.price
 ORDER BY COUNT(m.Mem_Id) DESC;
+
+ALTER TABLE Member
+ADD CONSTRAINT uq_members_email UNIQUE (email);
 
 SELECT * 
 FROM Member;

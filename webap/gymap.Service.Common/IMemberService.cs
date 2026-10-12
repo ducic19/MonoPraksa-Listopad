@@ -1,4 +1,5 @@
-﻿using gymap.Model;
+﻿using DTO;
+using gymap.Model;
 
 namespace gymap.Service.Common
 {
@@ -10,5 +11,7 @@ namespace gymap.Service.Common
         
         Task AddMemberAsync(Member member);
         Task UpdateMemberAsync(Member member);
+        Task UpdateAsync(Guid id, MemberEditDto dto);
+        Task DeleteAsync(Guid id);
     }
 }

@@ -19,7 +19,7 @@ namespace gymap.Service
 
         public string CreateToken(Member user)
         {
-            var secretKey = _config["JwtSettings:Secret"] 
+            var secretKey = _config["JwtSettings:Key"] 
                             ?? throw new InvalidOperationException("JwtSettings:Secret nije definiran!");
 
             var claims = new List<Claim>

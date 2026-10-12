@@ -31,7 +31,7 @@ namespace gymap.DTO
                 return null; // Korisnik već postoji
             }
 
-            // 2. Hashiranje lozinke pomoću BCrypta (automatski generira i spaja Salt!)
+            // 2. Hashiranje lozinke pomoću BCrypta
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
             // 3. Stvaranje novog člana s ulogom "User"
@@ -41,7 +41,7 @@ namespace gymap.DTO
                 Name = dto.Name,
                 Email = dto.Email,
                 PasswordHash = passwordHash,
-                Role = "User" // Defaultna uloga (klijent ne bira sam svoju ulogu)
+                Role = "User"
             };
 
             await _memberRepository.AddMemberAsync(member);
@@ -80,13 +80,7 @@ namespace gymap.DTO
 
         private string CreateJwtToken(Member member)
         {
-            // Ključ MORA imati minimalno 16 znakova (128 bita), stavljamo iznimno dugacki ključ
-            var secretKey = _configuration["JwtSettings:Secret"];
-    
-            if (string.IsNullOrEmpty(secretKey) || Encoding.UTF8.GetBytes(secretKey).Length < 16)
-            {
-                secretKey = "OvoJeVrloSiguranITajniKljucKojiImaViseOd256BitaZaJWT!";
-            }
+            var secretKey = _configuration["JwtSettings:Key"];
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -99,8 +93,8 @@ namespace gymap.DTO
             };
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["JwtSettings:Issuer"] ?? "gymap",
-                audience: _configuration["JwtSettings:Audience"] ?? "gymap",
+                issuer: _configuration["JwtSettings:Issuer"],
+                audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(2),
                 signingCredentials: creds

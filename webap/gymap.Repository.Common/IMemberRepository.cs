@@ -9,5 +9,6 @@ namespace gymap.Repository.Common
         Task<(List<Member> Members, List<Trainer> Trainers)> GetDashboardDataAsync();
         Task AddMemberAsync(Member member);
         Task UpdateMemberAsync(Member member);
+        Task DeleteMemberAsync(Guid id);
     }
 }

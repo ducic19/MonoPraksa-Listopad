@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTO", "DTO\DTO.csproj", "{6
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Constants", "gymap.Constants\gymap.Constants.csproj", "{2013FE4C-5D88-4DA2-A5A1-2B2824ED86BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gymap.Middleware", "gymap.Middleware\gymap.Middleware.csproj", "{1F8DF016-F617-4081-9B07-E576DFDF22AE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -136,6 +138,18 @@ Global
 		{2013FE4C-5D88-4DA2-A5A1-2B2824ED86BC}.Release|x64.Build.0 = Release|Any CPU
 		{2013FE4C-5D88-4DA2-A5A1-2B2824ED86BC}.Release|x86.ActiveCfg = Release|Any CPU
 		{2013FE4C-5D88-4DA2-A5A1-2B2824ED86BC}.Release|x86.Build.0 = Release|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Debug|x64.Build.0 = Debug|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Debug|x86.Build.0 = Debug|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Release|x64.ActiveCfg = Release|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Release|x64.Build.0 = Release|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Release|x86.ActiveCfg = Release|Any CPU
+		{1F8DF016-F617-4081-9B07-E576DFDF22AE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

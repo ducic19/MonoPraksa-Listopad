@@ -5,7 +5,7 @@ using gymap.Model;
 using DTO;
 using gymap.Constants; // Uvoz za Roles.Admin
 
-namespace gymap.Controllers
+namespace MemberController
 { 
     [ApiController]
     [Route("api/[controller]")]
@@ -53,6 +53,25 @@ namespace gymap.Controllers
             
             // Vraćamo status 201 Created s rutom do novog člana
             return CreatedAtAction(nameof(GetDetails), new { id = newMember.MemId }, dto);
+        }
+        
+        [Authorize] // Osigurava da samo prijavljeni korisnici mogu pristupiti ovim akcijama
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update( Guid id, [FromBody] MemberEditDto dto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await _memberService.UpdateAsync(id, dto);
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid  id)
+        {
+            await _memberService.DeleteAsync(id);
+            return NoContent();
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Text;
 using gymap.DTO;
+using gymap.Middleware; // <-- VAŽNO: Dodan imenski prostor za middleware
 using gymap.Repository;
 using gymap.Repository.Common;
 using gymap.Service;
@@ -27,7 +28,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IMemberRepository, MemberRepository>();
 builder.Services.AddScoped<IMemberService, MemberService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<ITokenService, TokenService>(); // Profesorov zahtjev: Token Service
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 // 5. Konfiguracija JWT Autentifikacije
 builder.Services.AddAuthentication(options =>
@@ -37,9 +38,8 @@ builder.Services.AddAuthentication(options =>
     })
     .AddJwtBearer(options =>
     {
-        // Profesorov zahtjev: Bez fallback ključa! Ako nedostaje, aplikacija odmah baca grešku.
-        var secretKey = builder.Configuration["JwtSettings:Secret"] 
-            ?? throw new InvalidOperationException("CRITICAL ERROR: 'JwtSettings:Secret' nedostaje u konfiguraciji/User Secrets!");
+        var secretKey = builder.Configuration["JwtSettings:Key"] 
+            ?? throw new InvalidOperationException("CRITICAL ERROR: 'JwtSettings:Key' nedostaje u konfiguraciji/User Keys!");
 
         var issuer = builder.Configuration["JwtSettings:Issuer"] 
             ?? throw new InvalidOperationException("CRITICAL ERROR: 'JwtSettings:Issuer' nije definiran u appsettings.json!");
@@ -51,23 +51,18 @@ builder.Services.AddAuthentication(options =>
         {
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-            
             ValidateIssuer = true,
             ValidIssuer = issuer,
-            
             ValidateAudience = true,
             ValidAudience = audience,
-            
             ValidateLifetime = true,
-            
-            // Profesorov zahtjev: Eksplicitna provjera rola
             RoleClaimType = System.Security.Claims.ClaimTypes.Role
         };
     });
 
 var app = builder.Build();
 
-// 6. Middleware Pipeline
+// 6. gymap.Middleware Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -76,17 +71,42 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Redoslijed middleware-a je ključan
-app.UseAuthentication(); // 1. Tko si ti?
-app.UseAuthorization();  // 2. Što smiješ raditi?
+app.UseAuthentication(); 
+app.UseAuthorization();  
+
+// --- OVDJE JE DODAN MIDDLEWARE ---
+app.UseMiddleware<LoggingMW>(); 
+// ---------------------------------
 
 app.MapControllers();
 
-// Automatski kreira tablice u tvojoj bazi ako već ne postoje
-using (var scope = app.Services.CreateScope())
+var scope = app.Services.CreateScope();
+try
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     dbContext.Database.EnsureCreated();
+    Console.WriteLine("[INFO] Sustav je uspješno povezan s bazom podataka.");
 }
-
+catch (Microsoft.EntityFrameworkCore.DbUpdateException dbEx)
+{
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    logger.LogError(dbEx, "Greška pri upisu, molimo provjerite unesene podatke");
+    throw;
+}
+catch (TimeoutException timeoutEx)
+{
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    logger.LogError(timeoutEx, "Molimo pokušajte ponovo kasnije!.");
+    throw;
+}
+catch (Exception ex)
+{
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    logger.LogError(ex, "Dogodila se neočekivana pogreška");
+    throw;
+}
+finally
+{
+    scope.Dispose();
+}
 app.Run();

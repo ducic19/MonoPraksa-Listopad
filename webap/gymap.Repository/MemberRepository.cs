@@ -49,5 +49,20 @@ namespace gymap.Repository
             _context.Members.Update(member);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteMemberAsync(Guid id)
+        {
+                // 1. Pronađi člana u bazi prema ID-u
+                var member = await _context.Members.FindAsync(id);
+    
+                if (member != null)
+                {
+                    // 2. Ukloni ga iz konteksta
+                    _context.Members.Remove(member);
+        
+                    // 3. Spremi promjene u bazu podataka (OVO JE KLJUČNO DA SE IZBRIŠE!)
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
     }
-}
