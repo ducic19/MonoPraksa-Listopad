@@ -21,6 +21,7 @@ namespace gymap.Controllers
         {
             var result = await _authService.RegisterAsync(dto);
             if (result == null) return BadRequest("Korisnik s tim e-mailom već postoji.");
+            
             return Ok(result);
         }
 

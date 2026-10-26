@@ -1,0 +1,137 @@
+:root {
+  --pozadina: #010f25e1;
+  --kartica: #02458877;
+  --rub: #bee2ff68;
+  --tekst: #e6e8ea;
+  --tekst-sporedni: #9aa3ab;
+  --naglasak: #164de6;
+  --naglasak-hover: #2a5ae8;
+}
+html, body, #root {
+  margin: 0;
+  background-color: var(--pozadina);
+}
+#root {
+  width: 100%;
+  max-width: none;
+  border: 0;
+}
+#glavni {
+  background-color: var(--pozadina);
+  color: var(--tekst);
+  min-height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+h1 {
+  font-size: 2.8rem;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+.podnaslov {
+  color: var(--tekst-sporedni);
+  text-align: center;
+  margin-top: -20px;
+}
+.kartica {
+  background-color: var(--kartica);
+  border: 1px solid var(--rub);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 15px 0;
+  width: 100%;
+  max-width: 500px;
+  box-sizing: border-box;
+  text-align: center;
+}
+.kartica h2 {
+  font-size: 1.8rem;
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+.kartica p {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--tekst-sporedni);
+  margin: 10px 0;
+}
+.lista {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0;
+}
+.gumb {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 20px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--naglasak);
+  border-radius: 4px;
+  text-decoration: none;
+}
+.gumb:hover {
+  background: var(--naglasak-hover);
+}
+.tabovi { display: flex; gap: 8px; margin-bottom: 16px; }
+.tab {
+  flex: 1;
+  padding: 8px;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--rub);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.tab.aktivan { background: var(--naglasak); border-color: var(--naglasak); color: #fff; }
+
+.polje {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 1px solid var(--rub);
+  border-radius: 4px;
+}
+.greska { color: #ff8a80; }
+button.gumb { border: 0; font: inherit; font-weight: 600; cursor: pointer; }
+button.gumb:disabled { opacity: 0.6; cursor: default; }
+.top-right-search {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+}
+
+.top-right-search input {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  background-color: #000;
+  border: 2px solid #00ff66;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.top-right-search button {
+  padding: 8px 15px;
+  background-color: #00ff66;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}

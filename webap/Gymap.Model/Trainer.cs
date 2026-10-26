@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace gymap.Model;
 
-public partial class Trainer
+public class Trainer
 {
     public Guid TrainerId { get; set; }
 
