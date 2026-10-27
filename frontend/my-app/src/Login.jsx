@@ -1,110 +1,136 @@
-// src/Login.jsx
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { useAuth } from './auth-context';
 
-function Login() {
-  const [mode, setMode] = useState('login') // 'login' ili 'register'
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [busy, setBusy] = useState(false)
-  const navigate = useNavigate()
+export default function Login() {
+  const { isLoggedIn, login, register } = useAuth();
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const [mode, setMode] = useState(params.get('mode') === 'register' ? 'register' : 'login');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
 
-  async function handleSubmit(e) {
-    e.preventDefault()
-    setError('')
-    setBusy(true)
+  useEffect(() => {
+    if (isLoggedIn) navigate('/', { replace: true });
+  }, [isLoggedIn, navigate]);
+
+  function switchMode(nextMode) {
+    setMode(nextMode);
+    setError('');
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    setBusy(true);
+    setError('');
+
     try {
-      const res = await fetch(`/api/auth/${mode}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(
-          mode === 'register' ? { name, email, password } : { email, password }
-        ),
-      })
-           if (!res.ok) {
-        throw new Error(
-          mode === 'login' ? 'Pogrešan e-mail ili lozinka.' : 'Registracija nije uspjela.'
-        )
+      if (mode === 'login') {
+        await login(email, password);
+      } else {
+        await register({ name, email, password });
       }
-      const data = await res.json().catch(() => ({}))
-      if (data.token) localStorage.setItem('token', data.token)
-      if (mode === 'register' && !data.token) {
-        setMode('login')
-        setError('Registracija uspjela. Sada se prijavi.')
-        return
-      }
-      navigate('/')
     } catch (err) {
-      setError(err.message)
+      setError(err.message);
     } finally {
-      setBusy(false)
+      setBusy(false);
     }
   }
 
   return (
-    <div id="glavni">
-      <h1 className="naslov">THEGYM</h1>
+    <div className="app">
+      <Header />
+      <main className="page">
+        <div className="auth container">
+          <div className="card">
+            <div className="tabs">
+              <button
+                type="button"
+                className={mode === 'login' ? 'tab active' : 'tab'}
+                onClick={() => switchMode('login')}
+              >
+                Log in
+              </button>
+              <button
+                type="button"
+                className={mode === 'register' ? 'tab active' : 'tab'}
+                onClick={() => switchMode('register')}
+              >
+                Sign up
+              </button>
+            </div>
 
-      <div className="kartica">
-        <div className="tabovi">
-          <button
-            type="button"
-            className={mode === 'login' ? 'tab aktivan' : 'tab'}
-            onClick={() => setMode('login')}
-          >
-            Prijava
-          </button>
-          <button
-            type="button"
-            className={mode === 'register' ? 'tab aktivan' : 'tab'}
-            onClick={() => setMode('register')}
-          >
-            Registracija
-          </button>
+            <h1>{mode === 'login' ? 'Welcome back' : 'Create your account'}</h1>
+
+            {mode === 'register' && (
+              <p className="auth-note">The hardest part is showing up — you're a minute away.</p>
+            )}
+
+            <form className="form" onSubmit={handleSubmit}>
+              {mode === 'register' && (
+                <div className="field">
+                  <label htmlFor="name">Full name</label>
+                  <input
+                    id="name"
+                    className="input"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                  />
+                </div>
+              )}
+
+              <div className="field">
+                <label htmlFor="email">Email</label>
+                <input
+                  id="email"
+                  className="input"
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
+              </div>
+
+              <div className="field">
+                <label htmlFor="password">Password</label>
+                <input
+                  id="password"
+                  className="input"
+                  type="password"
+                  autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                  minLength={mode === 'register' ? 8 : undefined}
+                  required
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+              </div>
+
+              {error && (
+                <p className="alert alert-error" role="alert">
+                  {error}
+                </p>
+              )}
+              <button type="submit" className="btn btn-primary btn-block" disabled={busy}>
+                {busy ? 'One moment…' : mode === 'login' ? 'Log in' : 'Create account'}
+              </button>
+            </form>
+
+            <p className="auth-hint">
+              Demo login: luka@gmail.com / 12345678
+            </p>
+          </div>
         </div>
-
-        <form onSubmit={handleSubmit}>
-          {mode === 'register' && (
-            <input
-              className="polje"
-              type="text"
-              placeholder="Ime i prezime"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          )}
-          <input
-            className="polje"
-            type="email"
-            placeholder="E-mail"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input
-            className="polje"
-            type="password"
-            placeholder="Lozinka"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          {error && <p className="greska">{error}</p>}
-
-          <button className="gumb" type="submit" disabled={busy}>
-            {busy ? 'Molim pričekaj…' : mode === 'login' ? 'Prijavi se' : 'Registriraj se'}
-          </button>
-        </form>
-
-        <p><Link to="/">← Natrag na početnu</Link></p>
-      </div>
+      </main>
+      <Footer />
     </div>
-  )
+  );
 }
-
-export default Login
